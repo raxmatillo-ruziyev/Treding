@@ -1,27 +1,64 @@
 import React from 'react'
-import { tradingCards } from '../data'
+import { FiEye, FiZap, FiLock, FiTarget, FiBookOpen, FiHeadphones } from 'react-icons/fi'
 
-const TradingCrad = () => {
+// Qadriyatlar (kartochkalar) matnini shu yerdan o'zgartiring.
+// Eslatma: endi '../data' dagi tradingCards ishlatilmaydi.
+export const VALUES = [
+  {
+    icon: FiEye,
+    title: 'Transparency',
+    text: 'Clear pricing and open trading conditions. You always know what you trade and what it costs.',
+  },
+  {
+    icon: FiZap,
+    title: 'Speed',
+    text: 'Fast order execution and a responsive platform, so you can act the moment the market moves.',
+  },
+  {
+    icon: FiLock,
+    title: 'Security',
+    text: 'We treat the protection of your funds and personal data as a top priority.',
+  },
+  {
+    icon: FiTarget,
+    title: 'Risk Awareness',
+    text: 'No promises of easy profit. We promote stop-loss, position sizing and disciplined decisions.',
+  },
+  {
+    icon: FiBookOpen,
+    title: 'Education',
+    text: 'Market insights and cent accounts that let you learn and practice with small risk.',
+  },
+  {
+    icon: FiHeadphones,
+    title: 'Support',
+    text: 'Responsive help with your account, deposits and platform questions when you need it.',
+  },
+]
+
+const TradingCrad = ({ items = VALUES }) => {
   return (
-    <div className="grid grid-cols-3 py-5 mx-auto gap-3 max-[1127px]:grid-cols-2 max-[746px]:grid-cols-1" >
-      {
-        tradingCards.map((item) => (
-          <div className="border  mx-auto text-center border-gray-200 rounded-2xl py-5 px-4 w-92 max-[1137px]:w-89 max-[1127px]:w-107 max-[897px]:w-89 max-[746px]:w-[90%] max-[745px]:h-70
-          h-120 max-[1127px]:h-115  max-[897px]:h-95 text-center  hover:bg-[black] bg-gray-900 transition-colors duration-300" >
+    <div className="grid gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+      {items.map(({ icon: Icon, title, text }, i) => (
+        <article
+          key={title}
+          className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-sky-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-sky-300 hover:shadow-xl hover:shadow-sky-900/10"
+        >
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-sky-50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-            <h2 className='text-white text-[40px] max-[1127px]:text-[50px] max-[897px]:text-[38px] max-[540px]:text-[32px] max-[450px]:text-[28px] max-[399px]:text-[24px]  max-[349px]:text-[20px] max-[655px]:text-[35px] text-center mx-auto max-[655px]:w-[85%] max-[498px]:w-[95%]  w-[75%]' >{item.title}</h2>
-            <p className='text-white text-[16px]  max-[1127px]:text-[18px] max-[897px]:text-[15px] mb-3 w-[82%] mx-auto max-[450px]:text-[14px]  max-[349px]:text-[12px]'>{item.text}</p>
-            <img
-              className='mx-auto w-[120px] h-[130px] max-[745px]:h-[120px] max-[610px]:h-[110px] max-[510px]:h-[100px] blur-sm hover:blur-none transition duration-300'
-              src={item.img}
-              alt=""
-              loading='lazy'
-            />
-
+          <div className="relative flex items-start justify-between">
+            <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 text-[22px] text-white shadow-md shadow-sky-500/30">
+              <Icon />
+            </span>
+            <span className="text-sm font-extrabold text-slate-300 transition-colors duration-300 group-hover:text-amber-500">
+              {String(i + 1).padStart(2, '0')}
+            </span>
           </div>
-        ))
-      }
 
+          <h3 className="relative mt-5 text-xl font-bold text-slate-900">{title}</h3>
+          <p className="relative mt-2 text-[15px] leading-relaxed text-slate-600">{text}</p>
+        </article>
+      ))}
     </div>
   )
 }
