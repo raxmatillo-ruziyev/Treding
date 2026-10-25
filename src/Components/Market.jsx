@@ -1,26 +1,54 @@
 import React from 'react'
 import MarketCard from './MarketCard'
 import Button from './Button'
-import {   bgservice, rightplay } from '../assets'
+import { FiArrowRight } from 'react-icons/fi'
+
+// ---------- Matnlarni shu yerdan o'zgartiring ----------
+const CONTENT = {
+  eyebrow: 'Markets',
+  titleStart: 'Start Trading the ',
+  titleGold: 'Markets',
+  titleEnd: ' Today',
+  text: 'Choose from gold and the most liquid currency pairs. Learn how each market behaves, build a plan and start with a risk you are comfortable with.',
+  cta: 'Explore Markets',
+}
 
 const Market = () => {
   return (
-    <div className='bg-gray-950'>
-      <img src={bgservice} alt="" className='-z-11    absolute left-0 right-0  w-full h-full' />
-     
+    <section
+      id="markets"
+      className="relative isolate overflow-hidden bg-sky-50 py-16 text-slate-900 sm:py-20 lg:py-24"
+    >
+      <div className="absolute left-1/2 top-0 -z-10 h-[280px] w-[560px] -translate-x-1/2 rounded-full bg-sky-200/50 blur-3xl" />
 
-      <div className='main-container  max-[700px]:py-0 py-15'>
-        <h2 className='text-[48px]  py-5 font-bold bg-linear-to-r/srgb from-indigo-100 to-teal-200 bg-clip-text text-transparent text-center max-[996px]:w-[72%]  max-[897px]:w-[100%]   max-[996px]:text-[55px]  max-[996px]:mx-auto  max-[875px]:text-[50px] max-[632px]:text-[40px] max-[573px]:text-[35px] max-[536px]:text-[30px] max-[50px]:text-[27px]'>Become an ivester today</h2>
-        <p className='text-white text-[14px] mx-auto w-[778px] max-[996px]:mx-auto max-[996px]:w-[85%] text-center py-2'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-          occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <div className='mx-auto flex justify-center py-5'>
-          <Button title="More on capital Market" text={"text-[black] hover:text-white text-[16px] max-[573px]:text-[15px] max-[481px]:text-[13px] max-[455px]:text-[11px] "} color={"bg-mainBlue hover:bg-[black]"} icon={rightplay} bg={"bg-[black]"} border={" border-[1px] border-mainBlue hover:border-white"} />
+      <div className="main-container">
+        <div className="mx-auto max-w-2xl text-center">
+          <span className="inline-flex items-center rounded-full border border-sky-200 bg-white px-4 py-1.5 text-[13px] font-semibold text-sky-800 shadow-sm">
+            {CONTENT.eyebrow}
+          </span>
+
+          <h2 className="mt-5 text-[30px] font-extrabold leading-[1.15] tracking-tight sm:text-4xl lg:text-5xl">
+            {CONTENT.titleStart}
+            <span className="bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">
+              {CONTENT.titleGold}
+            </span>
+            {CONTENT.titleEnd}
+          </h2>
+
+          <p className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg">
+            {CONTENT.text}
+          </p>
+
+          <div className="mt-7 flex justify-center">
+            <Button title={CONTENT.cta} href="#" icon={FiArrowRight} />
+          </div>
         </div>
-        <MarketCard />
+
+        <div className="mt-10 lg:mt-14">
+          <MarketCard />
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
 

@@ -1,24 +1,65 @@
 import React from 'react'
-import { marketCards } from '../data'
+import { FiTrendingUp, FiGlobe, FiLayers } from 'react-icons/fi'
 
-const MarketCard = () => {
+// Bozorlar ro'yxatini shu yerdan o'zgartiring.
+// Eslatma: endi '../data' dagi marketCards ishlatilmaydi.
+export const MARKETS = [
+  {
+    icon: FiTrendingUp,
+    gold: true,
+    title: 'Gold (XAU/USD)',
+    text: 'The most popular precious metal market. Follow gold against the US dollar and react to inflation data, interest rates and global events.',
+    tags: ['XAU/USD'],
+  },
+  {
+    icon: FiGlobe,
+    title: 'Major Pairs',
+    text: 'The most traded currency pairs in the world, known for deep liquidity and tight spreads during active sessions.',
+    tags: ['EUR/USD', 'GBP/USD', 'USD/JPY', 'USD/CHF'],
+  },
+  {
+    icon: FiLayers,
+    title: 'Cross Pairs',
+    text: 'Currency pairs without the US dollar. A way to trade the relative strength of two economies directly.',
+    tags: ['EUR/GBP', 'EUR/JPY', 'GBP/JPY'],
+  },
+]
+
+const MarketCard = ({ items = MARKETS }) => {
   return (
-    <div >
-      <div className="grid grid-cols-3  py-5 mx-auto gap-3  max-[1127px]:grid-cols-2  max-[746px]:grid-cols-1" >
-        {
-          marketCards.map((item) => (
-            <div className="border  mx-auto  border-gray-200  max-[1127px]:mx-auto rounded-2xl py-5 px-4 w-92 max-[1137px]:w-89 max-[1127px]:w-107 max-[897px]:w-89 max-[746px]:w-[90%] max-[745px]:h-103  max-[483px]:h-112 max-[745px]:text-center
-          h-120 max-[1127px]:h-115  max-[897px]:h-107 text-center  bg-[black] hover:bg-gray-900 transition-colors duration-300" >
+    <div className="grid gap-4 sm:gap-5 md:grid-cols-3">
+      {items.map(({ icon: Icon, gold, title, text, tags }) => (
+        <article
+          key={title}
+          className="group flex h-full flex-col rounded-3xl border border-sky-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:border-sky-300 hover:shadow-xl hover:shadow-sky-900/10"
+        >
+          <span
+            className={`flex h-12 w-12 items-center justify-center rounded-2xl text-[22px] shadow-md ${
+              gold
+                ? 'bg-gradient-to-br from-amber-200 via-amber-400 to-amber-600 text-amber-950 shadow-amber-500/30'
+                : 'bg-gradient-to-br from-sky-400 to-blue-600 text-white shadow-sky-500/30'
+            }`}
+          >
+            <Icon />
+          </span>
 
-              <h2 className='text-white text-[27px] py-4   max-[745px]:text-center' >{item.title}</h2>
-              <img className='mx-auto w-[280px] h-[200px] my-4  ' src={item.img} alt="" loading='lazy' />
-              <p className='text-white text-[17px] pt-4 text-left  max-[745px]:text-center '>{item.text}</p>
+          <h3 className="mt-5 text-xl font-bold text-slate-900">{title}</h3>
+          <p className="mt-2 flex-1 text-[15px] leading-relaxed text-slate-600">{text}</p>
 
-            </div>
-          ))
-        }
-
-      </div>
+          <ul className="mt-5 flex flex-wrap gap-2">
+            {tags.map((t) => (
+              <li
+                key={t}
+                className={`rounded-full px-3 py-1 text-xs font-bold ${
+                  gold ? 'bg-amber-50 text-amber-700' : 'bg-sky-50 text-sky-700'
+                }`}
+              >
+                {t}
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
     </div>
   )
 }

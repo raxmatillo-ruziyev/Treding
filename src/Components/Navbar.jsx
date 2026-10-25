@@ -1,6 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { navbarData } from '../data'
-import { bgheader } from '../assets/index'
 import { RxHamburgerMenu, RxCross2 } from 'react-icons/rx'
 import { FiArrowUpRight } from 'react-icons/fi'
 
@@ -8,28 +6,18 @@ import { FiArrowUpRight } from 'react-icons/fi'
 const BRAND = { first: 'Tilla', second: '.fx' }
 const CTA_TEXT = 'Start trading'
 
-// Navbarda faqat dastlabki NAV_LIMIT ta havola ko'rinadi ("More" menyusi olib tashlandi)
-const NAV_LIMIT = 4
-// Ko'rsatilmaydigan havolalar (kichik harfda yozing)
-const HIDDEN_LINKS = ['books']
+const CTA_HREF = '#' // ro'yxatdan o'tish sahifangiz manzilini shu yerga qo'ying
 const DESKTOP_BREAKPOINT = 780
 
-// "HOME" -> "Home", "ABOUT US" -> "About Us"
-const toTitle = (s = '') =>
-  String(s)
-    .toLowerCase()
-    .replace(/(^|\s)\S/g, (c) => c.toUpperCase())
-
-// Modul darajasida bir marta hisoblanadi (har renderda qayta emas)
-const LINKS = navbarData
-  .slice(0, NAV_LIMIT)
-  .filter((item) => !HIDDEN_LINKS.includes(String(item.text).trim().toLowerCase()))
-  .map((item) => ({ ...item, label: toTitle(item.text) }))
-
-// Shrift: Plus Jakarta Sans (zamonaviy fintech uslubi)
-const FONT_URL =
-  'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap'
-const FONT_FAMILY = "'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif"
+// Havolalar: id = sahifadagi bo'lim id'si (har bir bo'limda id="..." bor).
+// Endi '../data' kerak emas, havolalarni shu yerdan o'zgartiring.
+const LINKS = [
+  { id: 'home', label: 'Home' },
+  { id: 'about', label: 'About' },
+  { id: 'services', label: 'Services' },
+  { id: 'markets', label: 'Markets' },
+  { id: 'insights', label: 'Education' },
+]
 
 // Logo: ikki tomonga yo'nalgan shamchiq-strelkalar (oltin = o'sish, kumush = tushish)
 const Logo = () => (
@@ -134,17 +122,26 @@ const Logo = () => (
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [active, setActive] = useState('home')
 
   const closeMenu = useCallback(() => setOpen(false), [])
 
-  // Shriftni bir marta yuklash (keyin index.html ga ko'chirsa ham bo'ladi)
+  // Scroll holati: ekranning o'rtasidagi bo'lim "faol" havola bo'ladi
   useEffect(() => {
-    if (document.getElementById('tilla-font')) return
-    const link = document.createElement('link')
-    link.id = 'tilla-font'
-    link.rel = 'stylesheet'
-    link.href = FONT_URL
-    document.head.appendChild(link)
+    if (typeof IntersectionObserver === 'undefined') return
+    const sections = LINKS.map((l) => document.getElementById(l.id)).filter(Boolean)
+    if (!sections.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(e.target.id)
+        })
+      },
+      { rootMargin: '-40% 0px -55% 0px' }
+    )
+    sections.forEach((s) => observer.observe(s))
+    return () => observer.disconnect()
   }, [])
 
   useEffect(() => {
@@ -172,23 +169,19 @@ const Navbar = () => {
     }
   }, [open])
 
-  const linkClass =
-    'rounded-full px-4 py-2 text-sm font-semibold text-slate-700 transition-colors duration-200 hover:bg-white hover:text-sky-700'
+  const desktopLink = (id) =>
+    `rounded-full px-4 py-2 text-sm font-semibold transition-colors duration-200 hover:bg-white hover:text-sky-700 ${
+      active === id ? 'bg-white text-sky-700 shadow-sm' : 'text-slate-700'
+    }`
+
+  const mobileLink = (id) =>
+    `block rounded-xl px-4 py-3 text-base font-semibold transition-colors hover:bg-white hover:text-sky-700 ${
+      active === id ? 'bg-white text-sky-700' : 'text-slate-700'
+    }`
 
   return (
     <>
-      <img
-        src={bgheader}
-        alt=""
-        aria-hidden="true"
-        decoding="async"
-        className="-z-10 absolute inset-0 w-full"
-      />
-
-      <header
-        className="sticky top-0 z-50 px-4 pt-4"
-        style={{ fontFamily: FONT_FAMILY }}
-      >
+      <header className="sticky top-0 z-50 px-4 pt-4">
         <nav
           aria-label="Asosiy menyu"
           className={`mx-auto flex max-w-[1180px] items-center justify-between gap-4 rounded-2xl border px-4 backdrop-blur-xl transition-all duration-300 ${
@@ -197,7 +190,7 @@ const Navbar = () => {
               : 'border-sky-200/70 bg-sky-50/95 py-3 shadow-md shadow-sky-900/5'
           }`}
         >
-          <a href="/home" onClick={closeMenu} aria-label="Tilla.fx bosh sahifa" className="shrink-0">
+          <a href="#home" onClick={closeMenu} aria-label="Tilla.fx bosh sahifa" className="shrink-0">
             <Logo />
           </a>
 
@@ -205,7 +198,11 @@ const Navbar = () => {
           <ul className="flex flex-1 items-center justify-center gap-1 max-[780px]:hidden">
             {LINKS.map((item) => (
               <li key={item.id}>
-                <a className={linkClass} href={item.href ?? '#'}>
+                <a
+                  className={desktopLink(item.id)}
+                  href={`#${item.id}`}
+                  aria-current={active === item.id ? 'location' : undefined}
+                >
                   {item.label}
                 </a>
               </li>
@@ -214,7 +211,7 @@ const Navbar = () => {
 
           <div className="flex shrink-0 items-center gap-2">
             <a
-              href="#"
+              href={CTA_HREF}
               className="group inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-sky-500 to-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-sky-500/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-sky-500/50 max-[780px]:hidden"
             >
               {CTA_TEXT}
@@ -248,9 +245,10 @@ const Navbar = () => {
             {LINKS.map((item) => (
               <li key={item.id}>
                 <a
-                  href={item.href ?? '#'}
+                  href={`#${item.id}`}
                   onClick={closeMenu}
-                  className="block rounded-xl px-4 py-3 text-base font-semibold text-slate-700 transition-colors hover:bg-white hover:text-sky-700"
+                  className={mobileLink(item.id)}
+                  aria-current={active === item.id ? 'location' : undefined}
                 >
                   {item.label}
                 </a>
@@ -258,7 +256,7 @@ const Navbar = () => {
             ))}
             <li className="mt-2">
               <a
-                href="#"
+                href={CTA_HREF}
                 onClick={closeMenu}
                 className="block rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 py-3 text-center text-sm font-bold text-white"
               >

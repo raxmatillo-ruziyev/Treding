@@ -1,23 +1,57 @@
 import React from 'react'
 import FinanceCard from './FinanceCard'
-import {  bgservice, rightplay } from '../assets'
 import Button from './Button'
+import { FiArrowRight } from 'react-icons/fi'
+
+// ---------- Matnlarni shu yerdan o'zgartiring ----------
+const CONTENT = {
+  eyebrow: 'Our Approach',
+  titleStart: 'Our View of the ',
+  titleGold: 'Modern',
+  titleEnd: ' Financial World',
+  text: 'Successful trading is built on three habits: understanding the chart, following the news and protecting your capital. We focus on all three.',
+  cta: 'Learn more',
+  note: 'Educational content only. It is not investment advice.',
+}
 
 const Finance = () => {
   return (
-    <div className='bg-gray-950'>
-        <img src={bgservice} alt="" className='-z-11    absolute left-0 right-0  w-full h-full' />
+    <section
+      id="insights"
+      className="relative isolate overflow-hidden bg-white py-16 text-slate-900 sm:py-20 lg:py-24"
+    >
+      <div className="absolute -left-24 top-10 -z-10 h-[300px] w-[300px] rounded-full bg-amber-100/70 blur-3xl" />
+      <div className="absolute -right-24 bottom-0 -z-10 h-[320px] w-[320px] rounded-full bg-sky-100 blur-3xl" />
 
-      <div className='main-container  max-[700px]:py-0 py-15'>
-        <h2 className='text-[48px]  py-5 font-bold bg-linear-to-r/srgb from-indigo-100 to-teal-200 bg-clip-text text-transparent text-center max-[996px]:w-[72%]  max-[897px]:w-[100%]   max-[996px]:text-[55px]  max-[996px]:mx-auto  max-[875px]:text-[50px] max-[632px]:text-[40px] max-[573px]:text-[35px] max-[536px]:text-[30px] max-[50px]:text-[27px]'>Our view of the new financial world </h2>
-       <FinanceCard/>
-        <div className='mx-auto flex justify-center py-5'>
-          <Button title="Learn more" text={"text-[black] hover:text-white text-[16px] max-[573px]:text-[15px] max-[481px]:text-[13px] max-[455px]:text-[11px] "} color={"bg-mainBlue hover:bg-[black]"} icon={rightplay} bg={"bg-[black]"} border={" border-[1px] border-mainBlue hover:border-white"} />
+      <div className="main-container">
+        <div className="mx-auto max-w-2xl text-center">
+          <span className="inline-flex items-center rounded-full border border-sky-200 bg-sky-50 px-4 py-1.5 text-[13px] font-semibold text-sky-800">
+            {CONTENT.eyebrow}
+          </span>
+
+          <h2 className="mt-5 text-[30px] font-extrabold leading-[1.15] tracking-tight sm:text-4xl lg:text-5xl">
+            {CONTENT.titleStart}
+            <span className="bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">
+              {CONTENT.titleGold}
+            </span>
+            {CONTENT.titleEnd}
+          </h2>
+
+          <p className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg">
+            {CONTENT.text}
+          </p>
         </div>
-       
+
+        <div className="mt-10 lg:mt-14">
+          <FinanceCard />
+        </div>
+
+        <div className="mt-10 flex flex-col items-center gap-3">
+          <Button title={CONTENT.cta} href="#" variant="outline" icon={FiArrowRight} />
+          <p className="text-xs text-slate-500">{CONTENT.note}</p>
+        </div>
       </div>
-      
-    </div>
+    </section>
   )
 }
 

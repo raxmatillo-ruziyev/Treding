@@ -1,43 +1,99 @@
-import { useState } from "react";
+import React, { useId, useState } from 'react'
+import { FiPlus } from 'react-icons/fi'
 
-const Accordion = ({ title, content }) => {
-    const [isOpen, setIsOpen] = useState(false);
+// Savol-javoblarni shu yerdan o'zgartiring
+export const SERVICES = [
+  {
+    title: 'Gold (XAU/USD) Trading',
+    content:
+      'Trade gold against the US dollar with transparent pricing. Gold is widely watched as a safe-haven asset, but its price can move fast, so plan your risk before every trade.',
+  },
+  {
+    title: 'Forex Currency Pairs',
+    content:
+      'Access major pairs such as EUR/USD, GBP/USD and USD/JPY, with market access five days a week.',
+  },
+  {
+    title: 'Cent Accounts',
+    content:
+      'Practice your strategy with small real-money exposure. A cent account lets you learn the platform and test your approach before you scale up.',
+  },
+  {
+    title: 'Market Analysis & Education',
+    content:
+      'Learn to read charts, follow economic news and build a clear trading plan, one step at a time.',
+  },
+  {
+    title: 'Risk Management Tools',
+    content:
+      'Use stop-loss, take-profit and proper position sizing to protect your capital. Discipline matters more than any single trade.',
+  },
+]
 
-    return (
-        <div className="border-l my-3 rounded-r-2xl bg-zinc-900 border-blue-500 max-[896px]:rounded-2xl">
-            <div
-                onClick={() => setIsOpen(!isOpen)}
-                className="cursor-pointer py-4 px-4 text-[28px] max-[1000px]:text-[26px] max-[900px]:text-[24px] max-[800px]:text-[22px] max-[700px]:text-[20px] max-[600px]:text-[18px] max-[500px]:text-[16px] max-[400px]:text-[14px] bg-gradient-to-r from-indigo-100 to-teal-200 bg-clip-text text-transparent transition-all duration-300 rounded"
-            >
-                {title}
-            </div>
+const Item = ({ title, content, open, onToggle }) => {
+  const id = useId()
+  return (
+    <div
+      className={`overflow-hidden rounded-2xl border bg-white transition-all duration-300 ${
+        open
+          ? 'border-sky-300 shadow-lg shadow-sky-900/10'
+          : 'border-sky-100 shadow-sm hover:border-sky-200'
+      }`}
+    >
+      <h3>
+        <button
+          type="button"
+          onClick={onToggle}
+          aria-expanded={open}
+          aria-controls={`${id}-panel`}
+          id={`${id}-button`}
+          className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left sm:px-6 sm:py-5"
+        >
+          <span className="text-base font-bold text-slate-900 sm:text-lg">{title}</span>
+          <span
+            className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+              open ? 'rotate-45 bg-sky-500 text-white' : 'bg-sky-100 text-sky-700'
+            }`}
+          >
+            <FiPlus />
+          </span>
+        </button>
+      </h3>
 
-            <div
-                className={`px-4 text-gray-100 rounded text-4 max-[1000px]:text-[15px] max-[800px]:text-[14px] max-[600px]:text-[13px] max-[500px]:text-[12px] max-[400px]:text-[11px] 
-                transition-all duration-500 ease-in-out
-                ${isOpen ? "max-h-[500px] opacity-100 py-4" : "max-h-0 opacity-0 py-0 overflow-hidden"}`}
-            >
-                {content}
-            </div>
+      <div
+        id={`${id}-panel`}
+        role="region"
+        aria-labelledby={`${id}-button`}
+        className={`grid transition-all duration-300 ease-in-out ${
+          open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+        }`}
+      >
+        <div className="overflow-hidden">
+          <p className="px-5 pb-5 text-[15px] leading-relaxed text-slate-600 sm:px-6">
+            {content}
+          </p>
         </div>
-    );
-};
-
-export default function App() {
-    return (
-        <div className="w-[61%] max-[896px]:mx-auto max-[896px]:w-[90%] mt-10">
-            <Accordion
-                title="1st one"
-                content="Lorem ipsum odor amet, consectetuer adipiscing met vel nostra aptent .Lorem ipsum odor amet, consectetuer elit. vel parturient nostra aptent. .Lorem ipsum odor amet, consectetuer elit."
-            />
-            <Accordion
-                title="2nd one"
-                content="Lorem ipsum odor amet, consectetuer adipiscing met vel nostra aptent .Lorem ipsum odor amet, consectetuer elit. vel parturient nostra aptent. .Lorem ipsum odor amet, consectetuer elit."
-            />
-            <Accordion
-                title="3rd one"
-                content="Lorem ipsum odor amet, consectetuer adipiscing met vel nostra aptent .Lorem ipsum odor amet, consectetuer elit. vel parturient nostra aptent. .Lorem ipsum odor amet, consectetuer elit."
-            />
-        </div>
-    );
+      </div>
+    </div>
+  )
 }
+
+const Accardion = ({ items = SERVICES }) => {
+  const [openIndex, setOpenIndex] = useState(0)
+
+  return (
+    <div className="space-y-3">
+      {items.map((item, i) => (
+        <Item
+          key={item.title}
+          title={item.title}
+          content={item.content}
+          open={openIndex === i}
+          onToggle={() => setOpenIndex(openIndex === i ? -1 : i)}
+        />
+      ))}
+    </div>
+  )
+}
+
+export default Accardion

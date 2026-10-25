@@ -1,18 +1,39 @@
-
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-
-@layer Components {
-    .main-container {
-        @apply mx-auto max-w-[1200px] ;
-    }
-}
 @theme {
-    --color-mainBlue: #005fbe;
+  --color-mainBlue: #005fbe;
+  /* Butun sayt shrifti shu yerdan boshqariladi (index.html da ulangan) */
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  /* Havolani bosganda bo'limga silliq sudralib tushadi */
+  html {
+    scroll-behavior: smooth;
   }
 
+  /* Tizimda "animatsiyani kamaytirish" yoqilgan bo'lsa, oddiy sakrash */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
 
-body {
-    font-family: "Montserrat", sans-serif;
+  /* Yopishqoq navbar bo'lim sarlavhasini yopib qo'ymasligi uchun */
+  section[id],
+  footer[id] {
+    scroll-margin-top: 5rem;
+  }
+
+  body {
+    @apply bg-white text-slate-900 antialiased;
+  }
+}
+
+@layer components {
+  /* Eslatma: avval "@layer Components" (katta C) edi, shuning uchun u utility
+     klasslardan KEYIN kelib, ularni bosib ketardi. Endi to'g'ri. */
+  .main-container {
+    @apply mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8;
+  }
 }

@@ -1,25 +1,48 @@
 import React from 'react'
-import { financeCards } from '../data'
+import { FiBarChart2, FiFileText, FiShield } from 'react-icons/fi'
 
-const FinanceCard = () => {
-    return (
-        <div>
-            <div className="grid grid-cols-3  py-5 max-[600px]:py-0 mx-auto gap-3  max-[1044px]:grid-cols-2  max-[700px]:grid-cols-1" >
-                {
-                    financeCards.map((item) => (
-                        <div className="  mx-auto  border-gray-200   rounded-2xl py-2    w-87  max-[1044px]:w-97  max-[786px]:w-87 max-[700px]:w-[80%] text-center transition-colors duration-300" >
-                            <img className=' bg-[white] rounded-xl   mx-auto w-[280px] h-[200px]  max-[450px]:w-[210px] max-[450px]:h-[150px] max-[550px]:w-[230px] max-[550px]:h-[170px] my-2  ' src={item.img} alt="" loading='lazy' />
-                            <h2 className='text-white text-[27px] py-4  max-[1000px]:text-[25px]  max-[900px]:text-[23px]  max-[800px]:text-[21px]   max-[700px]:text-[20px]  max-[600px]:text-[18px]  max-[500px]:text-[16px]  max-[400px]:text-[14px]  max-[745px]:text-center' >{item.title}</h2>
+// Kartochkalarni shu yerdan o'zgartiring.
+// Eslatma: endi '../data' dagi financeCards ishlatilmaydi.
+export const PILLARS = [
+  {
+    icon: FiBarChart2,
+    title: 'Technical Analysis',
+    text: 'Read price action, trends, support and resistance to find clear entry and exit points.',
+  },
+  {
+    icon: FiFileText,
+    title: 'Economic News',
+    text: 'Central bank decisions, inflation and jobs data move gold and currencies. Know what is coming.',
+  },
+  {
+    icon: FiShield,
+    title: 'Risk & Money Management',
+    text: 'Risk a small, fixed part of your balance on each trade and always know your exit before you enter.',
+  },
+]
 
+const FinanceCard = ({ items = PILLARS }) => {
+  return (
+    <div className="grid gap-4 sm:gap-5 md:grid-cols-3">
+      {items.map(({ icon: Icon, title, text }, i) => (
+        <article
+          key={title}
+          className="group relative overflow-hidden rounded-3xl border border-sky-100 bg-gradient-to-b from-sky-50 to-white p-6 transition-all duration-300 hover:-translate-y-1.5 hover:border-sky-300 hover:shadow-xl hover:shadow-sky-900/10"
+        >
+          <span className="absolute right-5 top-4 text-5xl font-extrabold text-sky-100 transition-colors duration-300 group-hover:text-amber-100">
+            {String(i + 1).padStart(2, '0')}
+          </span>
 
+          <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400 to-blue-600 text-[22px] text-white shadow-md shadow-sky-500/30">
+            <Icon />
+          </span>
 
-                        </div>
-                    ))
-                }
-
-            </div>
-        </div>
-    )
+          <h3 className="relative mt-5 text-xl font-bold text-slate-900">{title}</h3>
+          <p className="relative mt-2 text-[15px] leading-relaxed text-slate-600">{text}</p>
+        </article>
+      ))}
+    </div>
+  )
 }
 
 export default FinanceCard

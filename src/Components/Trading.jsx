@@ -9,14 +9,11 @@ const CONTENT = {
   text: 'Trading is built on trust, discipline and clarity. These principles guide how we build the platform and how we work with every trader.',
 }
 
-const FONT_FAMILY = "'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif"
-
 const Trading = () => {
   return (
     <section
       id="values"
       className="relative isolate overflow-hidden bg-gradient-to-b from-white via-sky-50 to-sky-100/60 py-16 text-slate-900 sm:py-20 lg:py-24"
-      style={{ fontFamily: FONT_FAMILY }}
     >
       <div className="absolute left-1/2 top-0 -z-10 h-[300px] w-[600px] -translate-x-1/2 rounded-full bg-sky-200/40 blur-3xl" />
 

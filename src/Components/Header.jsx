@@ -37,8 +37,6 @@ const PAIRS = [
   { name: 'USD/JPY', change: '+0.27%', up: true },
 ]
 
-const FONT_FAMILY = "'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif"
-
 // Grafik chizig'i (namuna)
 const LINE =
   'M0 150 C28 140 46 160 78 128 S128 88 160 108 S212 66 242 80 S300 34 330 54 S372 22 392 26'
@@ -69,8 +67,8 @@ const animations = `
 const Header = () => {
   return (
     <section
+      id="home"
       className="relative isolate -mt-24 overflow-hidden pt-24 text-slate-900"
-      style={{ fontFamily: FONT_FAMILY }}
     >
       <style>{animations}</style>
 

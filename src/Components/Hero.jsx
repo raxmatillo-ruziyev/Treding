@@ -56,14 +56,11 @@ const STEPS = [
   },
 ]
 
-const FONT_FAMILY = "'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif"
-
 const Hero = () => {
   return (
     <section
       id="about"
       className="relative isolate overflow-hidden bg-white py-16 text-slate-900 sm:py-20 lg:py-24"
-      style={{ fontFamily: FONT_FAMILY }}
     >
       <div className="absolute -left-24 top-10 -z-10 h-[320px] w-[320px] rounded-full bg-sky-100 blur-3xl" />
       <div className="absolute -right-24 bottom-0 -z-10 h-[300px] w-[300px] rounded-full bg-amber-100/70 blur-3xl" />
